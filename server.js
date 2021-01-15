@@ -29,9 +29,17 @@ var server = http.createServer(function (request, response) {
     let filePath 
     filePath = path === '/'?'/index.html':path
     let index = filePath.lastIndexOf('.')
-    // let suffix = filePath.substring(index+1)
+    // let suffix = filePath.substring(index)
     let suffix = filePath.substring(index).replace('.','')
-    response.setHeader("Content-Type", `text/${suffix};charset=utf-8`);
+    let fileType = {
+      'html':'text/html',
+      'css':'text/css',
+      'js':'text/javascript',
+      'gif':"image/gif",
+      'png':"image/png",
+      'jpg':"image/jpeg"
+    }
+    response.setHeader("Content-Type", `${fileType[suffix]||'text/html'};charset=utf-8`);
     console.log('suffix-----'+suffix)
     try {
       response.write(fs.readFileSync(`./public${filePath}`));
